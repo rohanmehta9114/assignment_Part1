@@ -15,7 +15,8 @@
     <main>
       <section class='comment-input'>
         <p>Add Your Comment:</p>
-        <input data-bind="value: textField"/>
+        
+        <input data-bind="value: textField, enterKey: onEnterPress" />
         <button data-bind="click: AddComment">+</button>
       </section>
 

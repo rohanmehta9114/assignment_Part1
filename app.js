@@ -1,6 +1,6 @@
 
   'use strict';
-  //'globals' : { 'ko': false};
+  'globals' : { 'ko': false};
   function ViewModel(){
 
    var self=this;
@@ -22,25 +22,35 @@
    ]);
 
    self.AddComment=function(){
+     if (self.textField().trim() !=='' && self.textField()!==undefined){
       self.comments.push({array_element: self.textField()});
       //$('.comment-input input').val('');
     self.textField('');
+  }
    };
-   self.check = function(data, event) {
-        try {
-            if (event.which === 13) {
-                if (self.textField() !== '') {
-                    var comment = {
-                        comment: self.textField()
-                    };
-                    self.comments.push(comment);
-                    self.textField('');
+   /*self.onEnterPress = function () {
+        if (self.textField()!=='' && self.textField()!==undefined){
+            self.comments.push(new AddComments(self.textField()));
+            self.textField('');
+        }
+
+    };*/
+
+    ko.bindingHandlers.enterKey = {
+        init: function (element, valueAccessor, allBindings, data, context) {
+            var wrapper = function (data, event) {
+                if (event.keyCode === 13) {
+                  if (self.textField().trim() !=='' && self.textField()!==undefined){
+                      self.comments.push({array_element: self.textField()});
+                      self.textField('');
+                  }
+                  return false;
                 }
-                return false;
-            }
-            return true;
-        } catch (e) {}
+            };
+            ko.applyBindingsToNode(element, { event: { keyup: wrapper } }, context);
+        }
     };
+
 }
 
 
